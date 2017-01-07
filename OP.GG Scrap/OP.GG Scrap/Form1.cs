@@ -22,6 +22,7 @@ namespace OP.GG_Scrap
         {
             Core.Init(this);
             metroComboBox1.SelectedIndex = 0;
+            this.Text += " " + VERSION;
         }
 
         private void Form1_Load(object sender, EventArgs e)
