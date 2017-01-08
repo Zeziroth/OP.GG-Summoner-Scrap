@@ -46,6 +46,11 @@ namespace OP.GG_Scrap
                 case "Scrap":
                     if (Core.isValidName(metroTextBox1.Text, metroComboBox1.SelectedIndex))
                     {
+                        if (Scraper.scannedNames.Contains(metroTextBox1.Text))
+                        {
+                            MessageBox.Show("This user already got dumped!");
+                            return;
+                        }
                         metroButton1.Text = "Stop";
                         numericUpDown1.Enabled = false;
                         metroComboBox1.Enabled = false;

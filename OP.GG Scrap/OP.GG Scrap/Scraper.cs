@@ -31,20 +31,22 @@ namespace OP.GG_Scrap
         {
             while (true)
             {
-                if (queueNames.Count != 0)
+                try
                 {
-                    for (int i = 0; i<queueNames.Count;i++)
+                    if (queueNames.Count != 0)
                     {
-                        string tmpName = queueNames[i];
-                        while (PipeFull())
+                        for (int i = 0; i < queueNames.Count; i++)
                         {
+                            string tmpName = queueNames[i];
+                            while (PipeFull())
+                            {
 
+                            }
+                            Core.RunThread(LoadProfile, tmpName);
+                            Thread.Sleep(100);
                         }
-                        Core.RunThread(LoadProfile, tmpName);
-                        Thread.Sleep(100);
                     }
-                }
-
+                }catch { continue; }
             }
         }
         public static bool PipeFull()

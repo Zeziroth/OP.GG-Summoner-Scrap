@@ -232,6 +232,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.threadsLabel);
             this.Font = new System.Drawing.Font("Roboto", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.Resizable = false;
@@ -249,16 +250,16 @@
 
         internal System.Windows.Forms.Label threadsLabel;
         private System.Windows.Forms.Label label1;
-        private MetroFramework.Controls.MetroButton metroButton1;
         internal MetroFramework.Controls.MetroComboBox metroComboBox1;
         private System.Windows.Forms.Label label2;
         internal MetroFramework.Controls.MetroTextBox metroTextBox1;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
         private MetroFramework.Controls.MetroButton metroButton2;
         internal System.Windows.Forms.Label counter_lbl;
         private MetroFramework.Controls.MetroButton metroButton3;
         private System.Windows.Forms.PictureBox pictureBox1;
+        internal MetroFramework.Controls.MetroButton metroButton1;
+        internal System.Windows.Forms.NumericUpDown numericUpDown1;
     }
 }
 

@@ -15,6 +15,7 @@ namespace OP.GG_Scrap
 
         //All Controls
         private delegate void _ChangeVisible(Control ctrl, bool state);
+        private delegate void _EnableDisable(Control ctrl, bool state);
         private delegate void _ChangeText(Control ctrl, string newText);
 
         //Forms
@@ -58,6 +59,17 @@ namespace OP.GG_Scrap
             else
             {
                 ctrl.Text = newText;
+            }
+        }
+        public static void EnableDisable(Control ctrl, bool state)
+        {
+            if (ctrl.InvokeRequired)
+            {
+                ctrl.Invoke(new _EnableDisable(EnableDisable), ctrl, state);
+            }
+            else
+            {
+                ctrl.Enabled = state;
             }
         }
         public static void ChangeVisibilityForm(Form frm, bool state)

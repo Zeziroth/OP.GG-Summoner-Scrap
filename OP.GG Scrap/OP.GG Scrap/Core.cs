@@ -19,40 +19,27 @@ namespace OP.GG_Scrap
         private static readonly string[] charsets = new string[] { EUW_EUNE, NA_OCE, BRAZIL, RUSSIA, TURKEY, LATAM };
         private static ManualResetEvent syncEvent = new ManualResetEvent(false);
         #endregion
-        public static void DummyMethod()
-        {
-            int ii = 0;
-            for (int i = 0; i < int.MaxValue; i++)
-            {
-                ii++;
-            }
-        }
         public static void CloseThreads()
         {
             threadPool.Keys.ToList().ForEach(k => threadPool[k].Abort());
             threadPool.Keys.ToList().ForEach(k => threadPool.Remove(k));
             RefreshThreadLabel();
-            //for (int i = 0; i<threadPool.Count; i++)
-            //{
-            //    double key = threadPool.element
-            //    threadPool[key].Abort();
-            //    threadPool.Remove(key);
-                
-            //}
         }
         private static void RefreshThreadLabel()
         {
             mainForm.threadCount = threadPool.Count;
             if (mainForm.threadCount == 1 && mainForm.started == true)
             {
+                mainForm.started = false;
+                Core.CloseThreads();
+                Invoker.EnableDisable(mainForm.numericUpDown1, true);
+                Invoker.EnableDisable(mainForm.metroComboBox1, true);
+                Scraper.queueNames = new List<string>();
+                Invoker.ChangeText(mainForm.metroButton1, "Scrap");
                 System.Windows.Forms.MessageBox.Show("DONE!");
             }
             Invoker.SetLabelText(mainForm.threadsLabel, "Threads running: " + threadPool.Count.ToString());
         }
-        //public static void RunScrapper()
-        //{
-        //    Scraper.LoadProfile(mainForm.metroTextBox1.Text);
-        //}
         public static bool isValidName(string input, int state)
         {
             string charset = "";
@@ -111,57 +98,64 @@ namespace OP.GG_Scrap
         }
         public static Thread RunThread(Action methodName)
         {
-            ManualResetEvent syncEvent = new ManualResetEvent(false);
-            double unixMilli = (DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalMilliseconds;
-            Thread newThread = new Thread(
-        () =>
-        {
-            syncEvent.Set();
-            RefreshThreadLabel();
-            methodName();
-            syncEvent.WaitOne();
-            threadPool.Remove(unixMilli);
-            RefreshThreadLabel();
-        }
-
-    );
-            if (threadPool.ContainsKey(unixMilli))
+            try
             {
-                Thread.Sleep(5);
-                unixMilli = (DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalMilliseconds;
+                ManualResetEvent syncEvent = new ManualResetEvent(false);
+                double unixMilli = (DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalMilliseconds;
+                Thread newThread = new Thread(
+            () =>
+            {
+                syncEvent.Set();
+                RefreshThreadLabel();
+                methodName();
+                syncEvent.WaitOne();
+                threadPool.Remove(unixMilli);
+                RefreshThreadLabel();
             }
-            threadPool.Add(unixMilli, newThread);
 
-            newThread.Start();
-            return newThread;
+        );
+                if (threadPool.ContainsKey(unixMilli))
+                {
+                    Thread.Sleep(5);
+                    unixMilli = (DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalMilliseconds;
+                }
+                threadPool.Add(unixMilli, newThread);
+
+                newThread.Start();
+                return newThread;
+            }catch { return null; }
         }
 
 
         public static Thread RunThread(Func<string,bool> methodName, string arg)
         {
-            ManualResetEvent syncEvent = new ManualResetEvent(false);
-            double unixMilli = (DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalMilliseconds;
-            Thread newThread = new Thread(
-        () =>
-        {
-            syncEvent.Set();
-            RefreshThreadLabel();
-            methodName(arg);
-            syncEvent.WaitOne();
-            threadPool.Remove(unixMilli);
-            RefreshThreadLabel();
-        }
-
-    );
-            if (threadPool.ContainsKey(unixMilli))
+            try
             {
-                Thread.Sleep(5);
-                unixMilli = (DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalMilliseconds;
+                ManualResetEvent syncEvent = new ManualResetEvent(false);
+                double unixMilli = (DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalMilliseconds;
+                Thread newThread = new Thread(
+            () =>
+            {
+                syncEvent.Set();
+                RefreshThreadLabel();
+                methodName(arg);
+                syncEvent.WaitOne();
+                threadPool.Remove(unixMilli);
+                RefreshThreadLabel();
             }
-            threadPool.Add(unixMilli, newThread);
 
-            newThread.Start();
-            return newThread;
+        );
+                if (threadPool.ContainsKey(unixMilli))
+                {
+                    Thread.Sleep(5);
+                    unixMilli = (DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalMilliseconds;
+                }
+                threadPool.Add(unixMilli, newThread);
+
+                newThread.Start();
+                return newThread;
+            }
+            catch { return null;  }
         }
     }
 }
