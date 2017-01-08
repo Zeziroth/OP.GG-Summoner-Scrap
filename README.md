@@ -2,7 +2,7 @@
 
 Software for grabbing LeagueOfLegends-Summonernames from OP.GG (integrated Recursive)
 
-Grab more then 60.000 Summonernames within 2 Minutes with OP.GG-Summoner-Scrap
+Grab more then 130.000 Summonernames within 5 Minutes with OP.GG-Summoner-Scrap
 
 1. Start the Tool
 2. Insert a known Summonername and choose the Serverregion of it
